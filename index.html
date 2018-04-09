@@ -1,0 +1,66 @@
+<html>
+
+
+<head>
+	<script src="gold-historic-prices.js"></script>
+	<script src="silver-historic-prices.js"></script>
+	<script src="jquery-3.3.1.min.js"></script>
+	<script src="flot/jquery.flot.js"></script>
+</head>
+
+<body>
+
+<div id="goldHistoricalPrices" style="width:800px;height:300px"></div>
+<div id="silverHistoricalPrices" style="width:800px;height:300px"></div>
+
+
+
+</body>
+
+<script>
+$(function(){
+
+	var goldData = [];
+
+	for(var i=0; i<goldPrices.length; i++){
+		var datum = goldPrices[i];
+		var id = datum['id'];
+		var date = datum['date'];
+		var close = datum['close'];
+
+		goldData.push([i, parseFloat(close)]);
+	}
+
+	var silverData = [];
+	for(var i=0; i<silverPrices.length; i++){
+		var datum = silverPrices[i];
+		var id = datum['id'];
+		var date = datum['date'];
+		var close = datum['close'];
+
+		silverData.push([i, parseFloat(close)]);
+	}	
+
+	var options = {
+
+	}
+	$.plot("#goldHistoricalPrices", [goldData], options);
+	$.plot("#silverHistoricalPrices", [silverData], options);
+
+	function numberize(dollar){
+    	return parseFloat(dollar.replace("$", "").split(",").join(""));
+  	}
+
+  	function simplifyDollarNotation(amount){
+	    var a = amount;
+	    var units = ["", "K", "M", "B", "T"];
+	    var unitIndex = 0;
+	    while(a/1000 >= 1){
+	      a = a/1000;
+	      unitIndex++;
+	    }
+    	return a.toString() + units[unitIndex];
+  	}
+});
+</script>
+</html>
